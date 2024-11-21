@@ -1,8 +1,8 @@
-# Your Name Here
+# Your Name Here: Rikart Yeimo
 # UWYO COSC 1010
-# Submission Date
+# Submission Date: 11/21/2024
 # Lab XX
-# Lab Section: 
+# Lab Section: 10
 # Sources, people worked with, help given to: 
 # your
 # comments
@@ -10,12 +10,7 @@
 
 #import modules you will need 
 
-from hashlib import sha256 
-from pathlib import Path
 
-def get_hash(to_hash):
-    """You can use """
-    return sha256(to_hash.encode('utf-8')).hexdigest().upper()
 
 
 
@@ -43,3 +38,47 @@ def get_hash(to_hash):
 # Hash each individual password and compare it against the stored hash.
 # - When you find the match, print the plaintext version of the password.
 # - End your loop.
+
+from hashlib import sha256 
+from pathlib import Path
+def get_hash(to_hash):
+    """You can use """
+    return sha256(to_hash.encode('utf-8')).hexdigest().upper()
+def crack_password():
+    try:
+        with open("hash", "r") as hash_file:
+            stored_hash = hash_file.read().strip()
+    except FileNotFoundError:
+        print("It's error: the file hash cannot be found.")
+        return
+    except Exception as e:
+        print(f"unexpectted error reading 'hash': {e}")
+        return
+
+    try:
+        with open("rockyou.txt", "r", encoding="utf-8", errors="ignore") as password_file:
+            password_list = password_file.readlines()
+    except FileNotFoundError:
+        print("It's Error: The file 'rockyou.txt' cannot be found.")
+        return
+    except Exception as e:
+        print(f"error found from 'rockyou.txt': {e}")
+        return
+    else:
+        print("passsword is succesfully found in'rockyou.txt'.")
+
+    for password in password_list:
+        password = password.strip() 
+        hashed_password = get_hash(password)
+
+        if hashed_password == stored_hash:
+            print(f"Password found: {password}")
+            break
+    else:
+        print("The password is not matching with the 'rocktext you'")
+    
+if __name__ == "__main__":
+    crack_password()
+        
+
+       
